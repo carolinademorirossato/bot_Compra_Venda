@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void mostrar_menu() {
+    printf("Escolha uma operação:\n");
+    printf("1. Comprar Dólar\n");
+    printf("2. Vender Dólar\n");
+    printf("3. Consultar Saldo\n");
+    printf("4. Sair\n");
+}
+
+float comprar_dolar(float saldo, float preco_dolar, float quantidade){
+    float total = preco_dolar * quantidade;
+    if (total > saldo) {
+        printf("Saldo insuficiente para compra!\n");
+        return saldo; // Retorna saldo inalterado
+    }
+    printf("Você comprou %.2f dólares por %.2f cada.\n",
+    quantidade, preco_dolar);
+    return saldo - total; // Atualiza saldo
+}
+
+float vender_dolar(float saldo_dolar, float preco_dolar, float quantidade) {
+    if (quantidade > saldo_dolar){
+      printf("Você não possui dólares suficientes para vender!\n");
+      return saldo_dolar; // Retorna saldo inalterado
+    }
+    printf("Você vendeu %.2f dólares por %.2f cada.\n", quantidade,
+    preco_dolar);
+    return saldo_dolar - quantidade; // Atualiza saldo em dólares
+}
+
+int main(){
+    int opcao;
+    float saldo = 1000.0; // Saldo em Reais
+    float saldo_dolar = 0.0; // Saldo em Dólares
+    float preco_dolar = 5.30; // Preço fictício do dólar
+    float quantidade;
+    
+    do{
+        mostrar_menu();
+        printf("Digite sua opção: ");
+        scanf("%d", &opcao);
+        
+        switch(opcao){
+            case 1:
+             printf("Digite a quantidade de dólares para comprar: ");
+             scanf("%f", &quantidade);
+             saldo = comprar_dolar(saldo, preco_dolar,
+             quantidade);
+             saldo_dolar += quantidade;
+             break;
+            case 2:
+            printf("Digite a quantidade de dólares para vender; ");
+             scanf("%f", &quantidade);
+            saldo_dolar = vender_dolar(saldo_dolar, preco_dolar,quantidade);
+             saldo += preco_dolar * quantidade;
+             break;
+            case 3:
+             printf("Saldo em Reais: %.2f\n", saldo);
+             printf("Saldo em Dólares: %.2f\n", saldo_dolar);
+            break;
+            case 4:
+             printf("Saindo...\n");
+             break;
+             default:
+             printf("Opção inválida! Tente novamente.\n");
+        }
+        printf("\n");
+    } while (opcao != 4);
+    
+    return 0;
+}
